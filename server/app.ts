@@ -1,23 +1,11 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
 import express from 'express';
-import { errorHandler } from './controllers/middleware/errorMiddleware';
+const colors = require('colors');
+import { errorHandler } from './middleware/errorMiddleware';
+import { connectDB } from './config/db';
 const dotenv = require('dotenv').config();
 const PORT = process.env.PORT || 8000;
-const DB = process.env.DB;
 
-const uri = DB;
-
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1,
-});
-
-client.connect((err: any) => {
-  const collection = client.db('test').collection('devices');
-  client.close();
-});
-
+connectDB();
 const app = express();
 
 app.use(express.json());
